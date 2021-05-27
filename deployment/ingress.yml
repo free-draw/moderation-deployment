@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: ingress
+  namespace: moderation
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+
+spec:
+  defaultBackend:
+    service:
+      name: website
+      port:
+        number: 80
+  rules:
+  - host: moderation.freedraw.app
+    http:
+      paths:
+      - path: /api(?:/(.*))?
+        pathType: Prefix
+        backend:
+          service:
+            name: api
+            port:
+              number: 80
+      - # Somewhat of a hack to avoid rewriting
+        path: /(socket.io(?:/.*)?)
+        pathType: Prefix
+        backend:
+          service:
+            name: socket
+            port:
+              number: 80
