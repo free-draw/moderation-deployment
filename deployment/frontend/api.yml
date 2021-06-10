@@ -14,6 +14,7 @@ spec:
       labels:
         app: api
     spec:
+      restartPolicy: Always
       containers:
       - name: node
         image: registry.digitalocean.com/free-draw/moderation-api

@@ -16,6 +16,7 @@ spec:
       labels:
         app: website
     spec:
+      restartPolicy: Always
       containers:
       - name: nginx
         image: registry.digitalocean.com/free-draw/moderation-website
