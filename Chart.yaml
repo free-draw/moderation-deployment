@@ -1,0 +1,14 @@
+apiVersion: v2
+
+name: moderation
+description: The service handling moderation for all projects under the Free Draw name.
+version: 0.1.0
+
+dependencies:
+  - name: mongodb
+    version: 10
+    repository: https://charts.bitnami.com/bitnami
+
+  - name: redis
+    version: 14
+    repository: https://charts.bitnami.com/bitnami

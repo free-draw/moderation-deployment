@@ -2,22 +2,24 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: api
-  namespace: moderation
+  name: {{ .Release.Name }}-api
+  namespace: {{ .Release.Namespace }}
 
 spec:
   selector:
     matchLabels:
       app: api
+      release: {{ .Release.Name }}
   template:
     metadata:
       labels:
         app: api
+        release: {{ .Release.Name }}
     spec:
       restartPolicy: Always
       containers:
       - name: node
-        image: registry.digitalocean.com/free-draw/moderation-api
+        image: ghcr.io/free-draw/moderation-api:main
         env:
         - name: PORT
           value: "80"
@@ -25,37 +27,37 @@ spec:
         - name: JWT_SECRET
           valueFrom:
             secretKeyRef:
-              name: jwt
+              name: {{ .Release.Name }}-jwt
               key: secret
         - name: DISCORD_CLIENT_ID
           valueFrom:
             secretKeyRef:
-              name: discord-oauth2
+              name: {{ .Release.Name }}-discord
               key: client-id
         - name: DISCORD_CLIENT_SECRET
           valueFrom:
             secretKeyRef:
-              name: discord-oauth2
+              name: {{ .Release.Name }}-discord
               key: client-secret
           # External services
         - name: REDIS_HOST
-          value: "redis-master.moderation"
+          value: "{{ .Release.Name }}-redis-master.{{ .Release.Namespace }}"
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: redis
-              key: redis-password
+              name: {{ .Release.Name }}-redis
+              value: redis-password
         - name: MONGODB_HOST
-          value: "mongodb.moderation"
+          value: "{{ .Release.Name }}-mongodb.{{ .Release.Namespace }}"
         - name: MONGODB_DATABASE
-          value: "moderation"
+          value: "{{ .Release.Namespace }}"
         - name: MONGODB_USER
-          value: "root"
+          value: moderation
         - name: MONGODB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mongodb
-              key: mongodb-root-password
+              name: {{ .Release.Name }}-mongodb
+              value: mongodb-password
         resources:
           limits:
             memory: "128Mi"
@@ -66,12 +68,13 @@ apiVersion: v1
 kind: Service
 
 metadata:
-  name: api
-  namespace: moderation
+  name: {{ .Release.Name }}-api
+  namespace: {{ .Release.Namespace }}
 
 spec:
   selector:
     app: api
+    release: {{ .Release.Name }}
   ports:
   - protocol: TCP
     port: 80

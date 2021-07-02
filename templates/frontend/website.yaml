@@ -2,24 +2,24 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: website
-  namespace: moderation
-  labels:
-    app: website
+  name: {{ .Release.Name }}-website
+  namespace: {{ .Release.Namespace }}
 
 spec:
   selector:
     matchLabels:
       app: website
+      release: {{ .Release.Name }}
   template:
     metadata:
       labels:
         app: website
+        release: {{ .Release.Name }}
     spec:
       restartPolicy: Always
       containers:
       - name: nginx
-        image: registry.digitalocean.com/free-draw/moderation-website
+        image: ghcr.io/free-draw/moderation-website:main
         resources:
           limits:
             memory: "64Mi"
@@ -31,11 +31,12 @@ kind: Service
 
 metadata:
   name: website
-  namespace: moderation
+  namespace: {{ .Release.Namespace }}
 
 spec:
   selector:
     app: website
+    release: {{ .Release.Name }}
   ports:
   - protocol: TCP
     port: 80

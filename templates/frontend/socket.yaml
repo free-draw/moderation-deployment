@@ -2,33 +2,35 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: socket
-  namespace: moderation
+  name: {{ .Release.Name }}-socket
+  namespace: {{ .Release.Namespace }}
 
 spec:
   selector:
     matchLabels:
       app: socket
+      release: {{ .Release.Name }}
   template:
     metadata:
       labels:
         app: socket
+        release: {{ .Release.Name }}
     spec:
       restartPolicy: Always
       containers:
       - name: node
-        image: registry.digitalocean.com/free-draw/moderation-socket
+        image: ghcr.io/free-draw/moderation-socket:main
         env:
         - name: PORT
           value: "80"
           # External services
         - name: REDIS_HOST
-          value: "redis-master.moderation"
+          value: "{{ .Release.Name }}-redis-master.{{ .Release.Namespace }}"
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: redis
-              key: redis-password
+              name: {{ .Release.Name }}-redis
+              value: redis-password
         resources:
           limits:
             memory: "128Mi"
@@ -39,12 +41,13 @@ apiVersion: v1
 kind: Service
 
 metadata:
-  name: socket
-  namespace: moderation
+  name: {{ .Release.Name }}-socket
+  namespace: {{ .Release.Namespace }}
 
 spec:
   selector:
     app: socket
+    release: {{ .Release.Name }}
   ports:
   - protocol: TCP
     port: 80

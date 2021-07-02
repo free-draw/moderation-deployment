@@ -1,0 +1,16 @@
+host: moderation.freedraw.app
+
+discord:
+  oauth2:
+    id:
+    secret:
+
+# Subcharts
+
+mongodb:
+  architecture: replicaset
+  replicaSet.enabled: true
+  auth:
+    enabled: true
+    username: moderation
+    database: moderation
