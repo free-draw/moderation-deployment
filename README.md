@@ -1,4 +1,4 @@
-Install with [https://helm.sh/](Helm).
+Install with [Helm](https://helm.sh/)
 
 ```
 helm dependency update
