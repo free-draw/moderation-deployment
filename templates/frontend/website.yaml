@@ -17,6 +17,7 @@ spec:
         release: {{ .Release.Name }}
     spec:
       restartPolicy: Always
+      imagePullPolicy: always
       containers:
       - name: nginx
         image: ghcr.io/free-draw/moderation-website:main

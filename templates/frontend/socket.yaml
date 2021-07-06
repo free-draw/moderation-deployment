@@ -20,6 +20,7 @@ spec:
       containers:
       - name: node
         image: ghcr.io/free-draw/moderation-socket:main
+        imagePullPolicy: always
         env:
         - name: PORT
           value: "80"
