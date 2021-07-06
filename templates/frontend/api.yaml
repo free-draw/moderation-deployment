@@ -33,12 +33,12 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-discord
-              key: client-id
+              key: oauth2-client-id
         - name: DISCORD_CLIENT_SECRET
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-discord
-              key: client-secret
+              key: oauth2-client-secret
           # External services
         - name: REDIS_HOST
           value: "{{ .Release.Name }}-redis-master.{{ .Release.Namespace }}"
