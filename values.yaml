@@ -13,8 +13,6 @@ redis:
     password:
 
 mongodb:
-  architecture: replicaset
-  replicaSet.enabled: true
   auth:
     enabled: true
     username: moderation
