@@ -7,6 +7,11 @@ discord:
 
 # Subcharts
 
+redis:
+  auth:
+    enabled: true
+    password:
+
 mongodb:
   architecture: replicaset
   replicaSet.enabled: true
@@ -14,3 +19,4 @@ mongodb:
     enabled: true
     username: moderation
     database: moderation
+    password:

@@ -30,7 +30,7 @@ spec:
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-redis
+              name: {{ .Release.Name }}-services
               key: redis-password
         resources:
           limits:
