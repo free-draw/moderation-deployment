@@ -7,4 +7,5 @@ helm install moderation . \
 	--set discord.oauth2.secret=APPLICATION_SECRET_HERE \
 	--set redis.auth.password=EXAMPLE_PASSWORD_HERE \
 	--set mongodb.auth.password=EXAMPLE_PASSWORD_HERE
+	--set mongodb.auth.rootPassword=EXAMPLE_ROOT_PASSWORD_HERE
 ```

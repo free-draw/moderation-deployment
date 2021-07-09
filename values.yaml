@@ -15,6 +15,7 @@ redis:
 mongodb:
   auth:
     enabled: true
+    # rootPassword:
     username: moderation
     database: moderation
     password:
