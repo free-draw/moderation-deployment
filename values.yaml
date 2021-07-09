@@ -2,15 +2,15 @@ host: moderation.freedraw.app
 
 discord:
   oauth2:
-    id:
-    secret:
+    # id:
+    # secret:
 
 # Subcharts
 
 redis:
   auth:
     enabled: true
-    password:
+    # password:
 
 mongodb:
   auth:
@@ -18,4 +18,4 @@ mongodb:
     # rootPassword:
     username: moderation
     database: moderation
-    password:
+    # password:
