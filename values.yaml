@@ -4,18 +4,3 @@ discord:
   oauth2:
     # id:
     # secret:
-
-# Subcharts
-
-redis:
-  auth:
-    enabled: true
-    # password:
-
-mongodb:
-  auth:
-    enabled: true
-    # rootPassword:
-    username: moderation
-    database: moderation
-    # password:
