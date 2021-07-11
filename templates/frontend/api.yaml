@@ -40,25 +40,16 @@ spec:
             secretKeyRef:
               name: {{ .Release.Name }}-discord
               key: oauth2-client-secret
-          # External services
-        - name: REDIS_HOST
-          value: "{{ .Release.Name }}-redis-master.{{ .Release.Namespace }}"
-        - name: REDIS_PASSWORD
+        - name: REDIS
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-services
-              key: redis-password
-        - name: MONGODB_HOST
-          value: "{{ .Release.Name }}-mongodb.{{ .Release.Namespace }}"
-        - name: MONGODB_DATABASE
-          value: "{{ .Release.Namespace }}"
-        - name: MONGODB_USER
-          value: moderation
-        - name: MONGODB_PASSWORD
+              key: redis
+        - name: MONGODB
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-services
-              key: mongodb-password
+              key: mongodb
         resources:
           limits:
             memory: "128Mi"

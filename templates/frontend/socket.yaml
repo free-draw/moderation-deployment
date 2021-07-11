@@ -24,14 +24,11 @@ spec:
         env:
         - name: PORT
           value: "80"
-          # External services
-        - name: REDIS_HOST
-          value: "{{ .Release.Name }}-redis-master.{{ .Release.Namespace }}"
-        - name: REDIS_PASSWORD
+        - name: REDIS
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-services
-              key: redis-password
+              key: redis
         resources:
           limits:
             memory: "128Mi"
