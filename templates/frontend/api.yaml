@@ -17,6 +17,19 @@ spec:
         release: {{ .Release.Name }}
     spec:
       restartPolicy: Always
+      volumes:
+      - name: certs
+        secret:
+          secretName: {{ .Release.Name }}-services
+          items:
+          {{ if .Values.mongodb.cert }}
+          - key: mongodb-cert
+            path: mongodb.crt
+          {{ end }}
+          {{ if .Values.redis.cert }}
+          - key: redis-cert
+            path: redis.crt
+          {{ end }}
       containers:
       - name: node
         image: ghcr.io/free-draw/moderation-api:main
@@ -44,17 +57,21 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-services
-              key: redis
+              key: redis-url
         - name: MONGODB
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-services
-              key: mongodb
+              key: mongodb-url
         resources:
           limits:
             memory: "128Mi"
         ports:
         - containerPort: 80
+        volumeMounts:
+        - name: certs
+          mountPath: "/etc/certs"
+          readOnly: true
 ---
 apiVersion: v1
 kind: Service

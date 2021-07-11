@@ -28,7 +28,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-services
-              key: redis
+              key: redis-url
         resources:
           limits:
             memory: "128Mi"
