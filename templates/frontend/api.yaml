@@ -43,16 +43,16 @@ spec:
             secretKeyRef:
               name: {{ .Release.Name }}-jwt
               key: secret
-        - name: DISCORD_CLIENT_ID
+        - name: DISCORD_ID
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-discord
-              key: oauth2-client-id
-        - name: DISCORD_CLIENT_SECRET
+              key: id
+        - name: DISCORD_SECRET
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-discord
-              key: oauth2-client-secret
+              key: secret
         - name: REDIS
           valueFrom:
             secretKeyRef:

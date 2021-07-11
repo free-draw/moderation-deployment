@@ -2,8 +2,8 @@ Install with [Helm](https://helm.sh/).
 
 ```
 helm install moderation . --namespace moderation \
-	--set discord.oauth2.id=APPLICATION_ID_HERE \
-	--set discord.oauth2.secret=APPLICATION_SECRET_HERE \
+	--set discord.id=APPLICATION_ID_HERE \
+	--set discord.secret=APPLICATION_SECRET_HERE \
 	--set redis.url=REDIS_URL_HERE \
 	--set mongodb.url=MONGODB_URL_HERE
 ```

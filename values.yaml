@@ -1,6 +1,1 @@
 host: moderation.freedraw.app
-
-discord:
-  oauth2:
-    # id:
-    # secret:
