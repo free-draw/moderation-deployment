@@ -1,1 +1,5 @@
-host: moderation.freedraw.app
+mongodb:
+  ssl:
+    enabled: false
+  tls:
+    enabled: false

@@ -18,60 +18,51 @@ spec:
     spec:
       restartPolicy: Always
       volumes:
-      - name: certs
-        secret:
-          secretName: {{ .Release.Name }}-services
-          items:
-          {{ if .Values.mongodb.cert }}
-          - key: mongodb-cert
-            path: mongodb.crt
-          {{ end }}
-          {{ if .Values.redis.cert }}
-          - key: redis-cert
-            path: redis.crt
-          {{ end }}
+        {{- include "volumes.certs.mongodb" . | nindent 6 }}
       containers:
       - name: node
         image: ghcr.io/free-draw/moderation-api:main
         imagePullPolicy: Always
-        env:
-        - name: PORT
-          value: "80"
-          # Secrets
-        - name: JWT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Release.Name }}-jwt
-              key: secret
-        - name: DISCORD_ID
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Release.Name }}-discord
-              key: id
-        - name: DISCORD_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Release.Name }}-discord
-              key: secret
-        - name: REDIS
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Release.Name }}-services
-              key: redis-url
-        - name: MONGODB
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Release.Name }}-services
-              key: mongodb-url
         resources:
           limits:
             memory: "128Mi"
         ports:
         - containerPort: 80
+        env:
+        - name: PORT
+          value: "80"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-jwt
+              key: secret
+        - name: DISCORD_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-discord
+              key: client-id
+        - name: DISCORD_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-discord
+              key: client-secret
+        - name: DISCORD_REDIRECT_URL
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-discord
+              key: redirect-url
+        - name: MONGODB
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-urls
+              key: mongodb
+        - name: REDIS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-urls
+              key: redis
         volumeMounts:
-        - name: certs
-          mountPath: "/etc/certs"
-          readOnly: true
+          {{- include "volumeMounts.certs.mongodb" . | nindent 8 }}
 ---
 apiVersion: v1
 kind: Service

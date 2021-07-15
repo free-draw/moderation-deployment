@@ -1,0 +1,53 @@
+{
+	"type": "object",
+	"properties": {
+		"host": { "type": "string" }, 
+		"discord": {
+			"type": "object",
+			"properties": {
+				"clientId": { "type": "string" },
+				"clientSecret": { "type": "string" }
+			},
+			"required": [
+				"clientId",
+				"clientSecret"
+			]
+		},
+		"mongodb": {
+			"type": "object",
+			"properties": {
+				"url": { "type": "string" },
+				"tls": {
+					"type": "object",
+					"properties": {
+						"enabled": { "type": "boolean" },
+						"configMap": {
+							"type": "object",
+							"properties": {
+								"name": { "type": "string" },
+								"key": { "type": "string" }
+							}
+						}
+					}
+				}
+			},
+			"required": [
+				"url"
+			]
+		},
+		"redis": {
+			"type": "object",
+			"properties": {
+				"url": { "type": "string" }
+			},
+			"required": [
+				"url"
+			]
+		}
+	},
+	"required": [
+		"discord",
+		"mongodb",
+		"redis"
+	]
+}

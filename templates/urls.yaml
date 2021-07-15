@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Secret
+type: Opaque
+
+metadata:
+  name: {{ .Release.Name }}-urls
+  namespace: {{ .Release.Namespace }}
+
+data:
+  mongodb: {{ include "connectionUrl.mongodb" . | b64enc }}
+  redis: {{ include "connectionUrl.redis" . | b64enc }}

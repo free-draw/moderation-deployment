@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+type: Opaque
+
+metadata:
+  name: {{ .Release.Name }}-discord
+  namespace: {{ .Release.Namespace }}
+
+data:
+  client-id: {{ .Values.discord.clientId | b64enc }}
+  client-secret: {{ .Values.discord.clientSecret | b64enc }}
+  redirect-url: {{ .Values.discord.redirectUrl | b64enc }}

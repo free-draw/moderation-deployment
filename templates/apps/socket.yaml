@@ -2,43 +2,55 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: {{ .Release.Name }}-website
+  name: {{ .Release.Name }}-socket
   namespace: {{ .Release.Namespace }}
 
 spec:
   selector:
     matchLabels:
-      app: website
+      app: socket
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: website
+        app: socket
         release: {{ .Release.Name }}
     spec:
       restartPolicy: Always
       containers:
-      - name: nginx
-        image: ghcr.io/free-draw/moderation-website:main
+      - name: node
+        image: ghcr.io/free-draw/moderation-socket:main
         imagePullPolicy: Always
         resources:
           limits:
-            memory: "64Mi"
+            memory: "128Mi"
         ports:
         - containerPort: 80
+        env:
+        - name: PORT
+          value: "80"
+        - name: REDIS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-urls
+              key: redis
 ---
 apiVersion: v1
 kind: Service
 
 metadata:
-  name: {{ .Release.Name }}-website
+  name: {{ .Release.Name }}-socket
   namespace: {{ .Release.Namespace }}
 
 spec:
   selector:
-    app: website
+    app: socket
     release: {{ .Release.Name }}
   ports:
   - protocol: TCP
     port: 80
     targetPort: 80
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 900
