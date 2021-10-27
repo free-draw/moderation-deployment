@@ -2,24 +2,24 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: {{ .Release.Name }}-website
+  name: {{ .Release.Name }}-panel
   namespace: {{ .Release.Namespace }}
 
 spec:
   selector:
     matchLabels:
-      app: website
+      app: panel
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: website
+        app: panel
         release: {{ .Release.Name }}
     spec:
       restartPolicy: Always
       containers:
       - name: nginx
-        image: ghcr.io/free-draw/moderation-website:main
+        image: ghcr.io/free-draw/moderation-panel:main
         imagePullPolicy: Always
         resources:
           limits:
@@ -31,12 +31,12 @@ apiVersion: v1
 kind: Service
 
 metadata:
-  name: {{ .Release.Name }}-website
+  name: {{ .Release.Name }}-panel
   namespace: {{ .Release.Namespace }}
 
 spec:
   selector:
-    app: website
+    app: panel
     release: {{ .Release.Name }}
   ports:
   - protocol: TCP
