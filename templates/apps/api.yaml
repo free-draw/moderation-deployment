@@ -29,6 +29,8 @@ spec:
         ports:
         - containerPort: 80
         env:
+        - name: ADDRESS
+          value: "0.0.0.0"
         - name: PORT
           value: "80"
         - name: JWT_SECRET
@@ -51,12 +53,12 @@ spec:
             secretKeyRef:
               name: {{ .Release.Name }}-discord
               key: redirect-url
-        - name: MONGODB
+        - name: MONGODB_URL
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-urls
               key: mongodb
-        - name: REDIS
+        - name: REDIS_URL
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-urls
