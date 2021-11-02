@@ -2,24 +2,24 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: {{ .Release.Name }}-socket
+  name: {{ .Release.Name }}-realtime
   namespace: {{ .Release.Namespace }}
 
 spec:
   selector:
     matchLabels:
-      app: socket
+      app: realtime
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: socket
+        app: realtime
         release: {{ .Release.Name }}
     spec:
       restartPolicy: Always
       containers:
       - name: node
-        image: ghcr.io/free-draw/moderation-socket:main
+        image: ghcr.io/free-draw/moderation-realtime:main
         imagePullPolicy: Always
         resources:
           limits:
@@ -29,22 +29,27 @@ spec:
         env:
         - name: PORT
           value: "80"
-        - name: REDIS
+        - name: REDIS_URL
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-urls
               key: redis
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-jwt
+              key: secret
 ---
 apiVersion: v1
 kind: Service
 
 metadata:
-  name: {{ .Release.Name }}-socket
+  name: {{ .Release.Name }}-realtime
   namespace: {{ .Release.Namespace }}
 
 spec:
   selector:
-    app: socket
+    app: realtime
     release: {{ .Release.Name }}
   ports:
   - protocol: TCP

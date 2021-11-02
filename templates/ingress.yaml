@@ -10,7 +10,7 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: {{ .Release.Name }}-website
+      name: {{ .Release.Name }}-panel
       port:
         number: 80
   rules:
@@ -31,6 +31,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: {{ .Release.Name }}-socket
+            name: {{ .Release.Name }}-realtime
             port:
               number: 80
