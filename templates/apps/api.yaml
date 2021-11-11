@@ -41,17 +41,17 @@ spec:
         - name: DISCORD_CLIENT_ID
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-discord
+              name: {{ .Release.Name }}-discord-application
               key: client-id
         - name: DISCORD_CLIENT_SECRET
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-discord
+              name: {{ .Release.Name }}-discord-application
               key: client-secret
         - name: DISCORD_REDIRECT_URL
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-discord
+              name: {{ .Release.Name }}-discord-application
               key: redirect-url
         - name: MONGODB_URL
           valueFrom:
