@@ -6,11 +6,16 @@
 			"type": "object",
 			"properties": {
 				"clientId": { "type": "string" },
-				"clientSecret": { "type": "string" }
+				"clientSecret": { "type": "string" },
+				"redirectUrl": { "type": "string" },
+				"token": { "type": "string" }
+
 			},
 			"required": [
 				"clientId",
-				"clientSecret"
+				"clientSecret",
+				"redirectUrl",
+				"token"
 			]
 		},
 		"mongodb": {
