@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: {{ .Release.Name }}-configs
+  namespace: {{ .Release.Namespace }}
+
+data:
+  discord.json: |
+    {{ .Values.configs.discord | nindent 4 }}

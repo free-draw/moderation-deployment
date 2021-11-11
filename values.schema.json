@@ -2,6 +2,27 @@
 	"type": "object",
 	"properties": {
 		"host": { "type": "string" }, 
+		"jwt": { "type": "string" },
+		"configs": {
+			"type": "object",
+			"properties": {
+				"discord": { "type": "string" }
+			},
+			"required": [
+				"discord"
+			],
+			"additionalProperties": false
+		},
+		"tokens": {
+			"type": "object",
+			"properties": {
+				"discord": { "type": "string" }
+			},
+			"required": [
+				"discord"
+			],
+			"additionalProperties": false
+		},
 		"discord": {
 			"type": "object",
 			"properties": {
@@ -9,14 +30,14 @@
 				"clientSecret": { "type": "string" },
 				"redirectUrl": { "type": "string" },
 				"token": { "type": "string" }
-
 			},
 			"required": [
 				"clientId",
 				"clientSecret",
 				"redirectUrl",
 				"token"
-			]
+			],
+			"additionalProperties": false
 		},
 		"mongodb": {
 			"type": "object",
@@ -38,7 +59,8 @@
 			},
 			"required": [
 				"url"
-			]
+			],
+			"additionalProperties": false
 		},
 		"redis": {
 			"type": "object",
@@ -47,12 +69,14 @@
 			},
 			"required": [
 				"url"
-			]
+			],
+			"additionalProperties": false
 		}
 	},
 	"required": [
 		"discord",
 		"mongodb",
 		"redis"
-	]
+	],
+	"additionalProperties": false
 }

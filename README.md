@@ -10,6 +10,7 @@ host | Host to configure built-in ingress to use | *null* | No
 jwt | JWT override | *null* | No
 discord.clientId | Discord client ID | *null* | **Yes**
 discord.clientSecret | Discord client secret | *null* | **Yes**
+discord.token | Discord bot token | *null* | **Yes**
 discord.redirectUrl | Discord OAuth2 redirect URL | *null* | **Yes**
 
 ## MongoDB Connection Options
@@ -41,4 +42,5 @@ helm install redis bitnami/redis \
 	--set replica.persistence.enabled=false \
 	--set metrics.enabled=true \
 	--set sentinels.enabled=true
+helm install moderation . -f release.yaml
 ```

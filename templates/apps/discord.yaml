@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: {{ .Release.Name }}-api
+  name: {{ .Release.Name }}-discord
   namespace: {{ .Release.Namespace }}
 
 spec:
@@ -18,23 +18,24 @@ spec:
     spec:
       restartPolicy: Always
       volumes:
-        {{- include "volumes.certs.mongodb" . | nindent 6 }}
+        - name: config
+          configMap:
+            name: {{ .Release.Name }}-configs
+            items:
+            - key: discord.json
+              path: discord.json
       containers:
       - name: node
-        image: ghcr.io/free-draw/moderation-api:main
+        image: ghcr.io/free-draw/moderation-discord:main
         imagePullPolicy: Always
+        volumeMounts:
+        - name: config
+          mountPath: /app/config.json
+          subPath: discord.json
         resources:
           limits:
-            memory: "128Mi"
-        ports:
-        - containerPort: 80
-        volumeMounts:
-          {{- include "volumeMounts.certs.mongodb" . | nindent 8 }}
+            memory: "256Mi"
         env:
-        - name: ADDRESS
-          value: "0.0.0.0"
-        - name: PORT
-          value: "80"
         - name: JWT_SECRET
           valueFrom:
             secretKeyRef:
@@ -50,16 +51,18 @@ spec:
             secretKeyRef:
               name: {{ .Release.Name }}-discord-application
               key: client-secret
-        - name: DISCORD_REDIRECT_URL
+        - name: DISCORD_TOKEN
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-discord-application
-              key: redirect-url
-        - name: MONGODB_URL
+              key: token
+        - name: API_URL
+          value: "{{ .Release.Name }}-api.{{ .Release.Namespace }}.svc.cluster.local"
+        - name: API_TOKEN
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-urls
-              key: mongodb
+              name: {{ .Release.Name }}-tokens
+              key: discord
         - name: REDIS_URL
           valueFrom:
             secretKeyRef:
@@ -70,7 +73,7 @@ apiVersion: v1
 kind: Service
 
 metadata:
-  name: {{ .Release.Name }}-api
+  name: {{ .Release.Name }}-discord
   namespace: {{ .Release.Namespace }}
 
 spec:

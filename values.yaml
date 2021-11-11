@@ -1,5 +1,3 @@
 mongodb:
-  ssl:
-    enabled: false
   tls:
     enabled: false
