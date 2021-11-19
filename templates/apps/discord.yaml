@@ -8,12 +8,12 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: api
+      app: discord
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: api
+        app: discord
         release: {{ .Release.Name }}
     spec:
       restartPolicy: Always
@@ -68,19 +68,3 @@ spec:
             secretKeyRef:
               name: {{ .Release.Name }}-urls
               key: redis
----
-apiVersion: v1
-kind: Service
-
-metadata:
-  name: {{ .Release.Name }}-discord
-  namespace: {{ .Release.Namespace }}
-
-spec:
-  selector:
-    app: api
-    release: {{ .Release.Name }}
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
